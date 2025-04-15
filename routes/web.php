@@ -14,11 +14,13 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/slack/actions', [SlackController::class, 'handleAction'])->name('slack.actions')->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-
-// Route::get('/certificates/{certificateId}/download', [IntakeController::class, 'downloadCertificate'])->name('certificates.download');
-//     // 1) Show the certificate HTML
-//     Route::get('/certificates/{certificateId}', [IntakeController::class, 'showCertificate'])
-//         ->name('certificates.show');
+Route::get('/starthere', function () {
+    return Inertia::render('IntakeForm'); 
+})->name('starthere');
+Route::get('/certificates/{certificateId}/download', [IntakeController::class, 'downloadCertificate'])->name('certificates.download');
+    // 1) Show the certificate HTML
+    Route::get('/certificates/{certificateId}', [IntakeController::class, 'showCertificate'])
+        ->name('certificates.show');
 
 Route::middleware('web')->group(function () {
     Route::get('/slack/oauth', [SlackController::class, 'redirectToSlack'])->name('slack.oauth');
@@ -41,14 +43,14 @@ Route::group([
     'prefix' => '/{tenant}',
     'middleware' => [InitializeTenancyByPath::class, PreventAccessFromCentralDomains::class, HandleTenant::class],
 ], function () {
-    Route::get('/starthere', function () {
-        return Inertia::render('IntakeForm'); 
-    })->name('starthere');
+    // Route::get('/starthere', function () {
+    //     return Inertia::render('IntakeForm'); 
+    // })->name('starthere');
     
-    Route::get('/certificates/{certificateId}/download', [IntakeController::class, 'downloadCertificate'])->name('certificates.download');
-    // 1) Show the certificate HTML
-    Route::get('/certificates/{certificateId}', [IntakeController::class, 'showCertificate'])
-        ->name('certificates.show');
+    // Route::get('/certificates/{certificateId}/download', [IntakeController::class, 'downloadCertificate'])->name('certificates.download');
+    // // 1) Show the certificate HTML
+    // Route::get('/certificates/{certificateId}', [IntakeController::class, 'showCertificate'])
+    //     ->name('certificates.show');
 
     Route::post('/intake/store', [IntakeController::class, 'store'])->name('intake.store');
 
