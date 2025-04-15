@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="slack-app-id" content="A08LZ4QNDPB">
+
+        
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
@@ -18,6 +21,9 @@
                 }
             })();
         </script>
+
+
+
 
         {{-- Inline style to set the HTML background color based on our theme in app.css --}}
         <style>

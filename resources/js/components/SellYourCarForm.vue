@@ -14,9 +14,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { ref, onMounted, computed } from 'vue';
+import { usePage, router } from '@inertiajs/vue3';
 import { Model } from 'survey-core';
+import { route } from 'ziggy-js';
 import { SurveyComponent } from 'survey-vue3-ui';
 import 'survey-core/survey-core.min.css';
 
@@ -116,6 +117,13 @@ const themeJson = {
   },
   headerView: 'advanced'
 };
+
+// 1) Access Inertia's page props.
+const page = usePage()
+
+// 2) Create a computed property for tenant. This will be undefined if
+//    you're not actually passing `tenant` from your Laravel controller.
+const tenant = computed(() => page.props.tenant)
 
 const surveyModel = {
   title: 'Sell My Vehicle',
@@ -325,11 +333,14 @@ onMounted(() => {
     }
   });
 
+  const page = usePage();
+  const tenant = computed(() => page.props.tenant);
+
   survey.value.setVariable('vinError', '');
 
   survey.value.onComplete.add((sender) => {
     const formData = sender.data;
-    router.post('/intake/store', formData, {
+    router.post(route('intake.store', { tenant: tenant.value }), formData, {
       onSuccess: () => {
         console.log('Form submitted successfully');
         survey.value.clear(); // Reset form

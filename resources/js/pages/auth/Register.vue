@@ -8,11 +8,14 @@ import AuthBase from '@/layouts/AuthLayout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
+
+
 const form = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
+    company: '',
 });
 
 const submit = () => {
@@ -39,6 +42,19 @@ const submit = () => {
                     <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
+
+                <div class="mb-4">
+          <label for="company" class="block text-sm font-medium text-gray-700">Company Name</label>
+          <input
+            id="company"
+            v-model="form.company"
+            type="text"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            :class="{ 'border-red-500': form.errors.company }"
+            placeholder="Your Company Name"
+          />
+          <p v-if="form.errors.company" class="mt-2 text-sm text-red-600">{{ form.errors.company }}</p>
+        </div>
 
                 <div class="grid gap-2">
                     <Label for="password">Password</Label>

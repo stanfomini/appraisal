@@ -108,9 +108,11 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="route('dashboard')" class="flex items-center gap-x-2">
-                    <AppLogo />
-                </Link>
+                <Link v-if="$page.props.tenant" :href="route('dashboard', { tenant: $page.props.tenant })">
+  Dashboard
+  <AppLogo />
+</Link>
+                 
 
                 <!-- Desktop Menu -->
                 <div class="hidden h-full lg:flex lg:flex-1">
